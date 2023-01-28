@@ -1,0 +1,231 @@
+{
+  "assistants": [
+    {
+      "firstName": "Oberon",
+      "lastName": "Babber",
+      "phone": "9752269673",
+      "email": "oberon.babber@dentistcompanybvt.com",
+      "sick": false
+    },
+    {
+      "firstName": "Gavra",
+      "lastName": "Seacroft",
+      "phone": "7814487556",
+      "email": "gavra.seacroft@dentistcompanybvt.com",
+      "sick": true
+    }
+  ],
+  "dentists": [
+    {
+      "firstName": "Keven",
+      "lastName": "Rawlence",
+      "phone": "9366029657",
+      "email": "keven.rawlence@dentistcompanybvt.com",
+      "sick": false
+    },
+    {
+      "firstName": "Sherline",
+      "lastName": "Pascoe",
+      "phone": "2366192618",
+      "email": "sherline.pascoe@dentistcompanybvt.com",
+      "sick": false
+    },
+    {
+      "firstName": "Karia",
+      "lastName": "Fountaine",
+      "phone": "2939205258",
+      "email": "karia.fountaine@dentistcompanybvt.com",
+      "sick": false
+    },
+    {
+      "firstName": "Shirlee",
+      "lastName": "Varren",
+      "phone": "9064543760",
+      "email": "shirly.varren@dentistcompanybvt.com",
+      "sick": false
+    }
+  ],
+  "appointments": [
+    {
+      "day": "6",
+      "time": "10:00",
+      "client": {
+        "firstName": "Yalonda",
+        "lastName": "Gon",
+        "phone": "3054827838",
+        "email": "ygon8@epa.gov",
+        "birthYear": 1982,
+        "sick": false
+      },
+      "dentist": "keven.rawlence@dentistcompanybvt.com",
+      "assistant": "oberon.babber@dentistcompanybvt.com",
+      "id": 1
+    },
+    {
+      "day": "4",
+      "time": "12:00",
+      "client": {
+        "firstName": "Jake",
+        "lastName": "Ilsley",
+        "phone": "5524920326",
+        "email": "jilsley14@printfriendly.com",
+        "birthYear": 1961,
+        "sick": false
+      },
+      "dentist": "karia.fountaine@dentistcompanybvt.com",
+      "assistant": "gavra.seacroft@dentistcompanybvt.com",
+      "id": 2
+    },
+    {
+      "day": "1",
+      "time": "11:00",
+      "client": {
+        "firstName": "Riva",
+        "lastName": "Pawelke",
+        "phone": "2229455354",
+        "email": "rpawelkek@imgur.com",
+        "birthYear": 2013,
+        "sick": false
+      },
+      "dentist": "karia.fountaine@dentistcompanybvt.com",
+      "assistant": "oberon.babber@dentistcompanybvt.com",
+      "id": 3
+    },
+    {
+      "day": "5",
+      "time": "14:00",
+      "client": {
+        "firstName": "Cindelyn",
+        "lastName": "Varty",
+        "phone": "2509180497",
+        "email": "cvartyh@princeton.edu",
+        "birthYear": 1981,
+        "sick": false
+      },
+      "dentist": "shirly.varren@dentistcompanybvt.com",
+      "assistant": "oberon.babber@dentistcompanybvt.com",
+      "id": 4
+    },
+    {
+      "day": "1",
+      "time": "16:00",
+      "client": {
+        "firstName": "Nyssa",
+        "lastName": "Bradane",
+        "phone": "2864766706",
+        "email": "nbradanel@about.me",
+        "birthYear": 2001,
+        "sick": false
+      },
+      "dentist": "karia.fountaine@dentistcompanybvt.com",
+      "assistant": "gavra.seacroft@dentistcompanybvt.com",
+      "id": 5
+    },
+    {
+      "day": "12",
+      "time": "12:00",
+      "client": {
+        "firstName": "Eleen",
+        "lastName": "Chitson",
+        "phone": "4104717536",
+        "email": "echitson6@answers.com",
+        "birthYear": 1967,
+        "sick": false
+      },
+      "dentist": "shirly.varren@dentistcompanybvt.com",
+      "assistant": {},
+      "id": 6
+    },
+    {
+      "day": "1",
+      "time": "09:00",
+      "client": {
+        "firstName": "Eleen",
+        "lastName": "Chitson",
+        "phone": "4104717536",
+        "email": "echitson6@answers.com",
+        "birthYear": 1967,
+        "sick": false
+      },
+      "dentist": "karia.fountaine@dentistcompanybvt.com",
+      "assistant": "",
+      "id": 7
+    },
+    {
+      "day": "1",
+      "time": "15:00",
+      "client": {
+        "firstName": "Vitoria",
+        "lastName": "McKernan",
+        "phone": "1425734815",
+        "email": "vmckernans@facebook.com",
+        "birthYear": 1992,
+        "sick": true
+      },
+      "dentist": "sherline.pascoe@dentistcompanybvt.com",
+      "assistant": "oberon.babber@dentistcompanybvt.com",
+      "id": 8
+    },
+    {
+      "day": "10",
+      "time": "11:00",
+      "client": {
+        "firstName": "Amanda",
+        "lastName": "Korf",
+        "phone": "8893521174",
+        "email": "akorfu@patch.com",
+        "birthYear": 1970,
+        "sick": false
+      },
+      "dentist": "shirly.varren@dentistcompanybvt.com",
+      "assistant": "gavra.seacroft@dentistcompanybvt.com",
+      "id": 9
+    },
+    {
+      "day": "6",
+      "time": "16:00",
+      "client": {
+        "firstName": "Humphrey",
+        "lastName": "Dorgan",
+        "phone": "8283689603",
+        "email": "hdorganv@economist.com",
+        "birthYear": 1999,
+        "sick": true
+      },
+      "dentist": "sherline.pascoe@dentistcompanybvt.com",
+      "assistant": "oberon.babber@dentistcompanybvt.com",
+      "id": 10
+    },
+    {
+      "day": "2",
+      "time": "07:00",
+      "client": {
+        "firstName": "Hephzibah",
+        "lastName": "Aish",
+        "phone": "4064234353",
+        "email": "haish9@cisco.com",
+        "birthYear": 1998,
+        "sick": false
+      },
+      "dentist": "keven.rawlence@dentistcompanybvt.com",
+      "assistant": "oberon.babber@dentistcompanybvt.com",
+      "id": 11
+    },
+    {
+      "day": "1",
+      "time": "07:00",
+      "client": {
+        "firstName": "Manya",
+        "lastName": "Micallef",
+        "phone": "7852116158",
+        "email": "mmicallefy@umn.edu",
+        "birthYear": 1983,
+        "sick": false
+      },
+      "dentist": "shirly.varren@dentistcompanybvt.com",
+      "assistant": "gavra.seacroft@dentistcompanybvt.com",
+      "id": 12
+    }
+  ],
+  "backup": []
+}
