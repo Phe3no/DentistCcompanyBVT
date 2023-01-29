@@ -1,11 +1,11 @@
-import React from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { MdOutlinePhone } from "react-icons/md";
 import { MdOutlineEmail } from "react-icons/md";
 import { MdOutlineSick } from "react-icons/md";
 import { MdOutlineDelete } from "react-icons/md";
 import {
-  isSick,
+  updateAssistantSick,
   deleteAssistant,
   selectAllAssistants,
 } from "./assistantsSlice";
@@ -13,13 +13,32 @@ import {
 const AssistantsList = () => {
   const dispatch = useDispatch();
   const assistants = useSelector(selectAllAssistants);
+  const [requestStaus, setRequestStatus] = useState("idle");
 
-  const onSickCheckboxChanged = (email) => {
-    dispatch(isSick(email));
-    console.log("check");
+  const onSickCheckboxChanged = (assistant) => {
+    const sickSwitch = { ...assistant };
+    sickSwitch.sick = !sickSwitch.sick;
+    console.log(sickSwitch);
+    try {
+      setRequestStatus("pending");
+      dispatch(updateAssistantSick(sickSwitch)).unwrap();
+    } catch (err) {
+      console.log("Failed to update dentist sick", err);
+    } finally {
+      setRequestStatus("idle");
+    }
   };
 
-  const onDeleteClicked = (email) => dispatch(deleteAssistant(email));
+  const onDeleteClicked = (id) => {
+    try {
+      setRequestStatus("pending");
+      dispatch(deleteAssistant({ id })).unwrap();
+    } catch (err) {
+      console.log("Failed to delete the assistant", err);
+    } finally {
+      setRequestStatus("idle");
+    }
+  };
 
   const renderedAssistants = assistants.map((assistant, index) => (
     <article key={index}>
@@ -37,13 +56,10 @@ const AssistantsList = () => {
           <MdOutlineSick />
           <input
             type="checkbox"
-            onChange={() => onSickCheckboxChanged(assistant.email)}
+            onChange={() => onSickCheckboxChanged(assistant)}
             checked={assistant.sick}
           />
-          <button
-            type="button"
-            onClick={() => onDeleteClicked(assistant.email)}
-          >
+          <button type="button" onClick={() => onDeleteClicked(assistant.id)}>
             <MdOutlineDelete />
           </button>
         </span>

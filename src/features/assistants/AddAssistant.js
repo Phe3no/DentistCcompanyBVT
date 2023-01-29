@@ -5,12 +5,15 @@ import { addAssistant, isAddAssistantFormActive } from "./assistantsSlice";
 const AddAssistant = () => {
   const dispatch = useDispatch();
   const isFormActive = useSelector(isAddAssistantFormActive);
+  const notActive = !isFormActive;
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [phone, setPhone] = useState("");
+  const [addRequestStatus, setAddRequestStatus] = useState("idle");
 
-  const canSave = Boolean(firstName) && Boolean(lastName) && Boolean(phone);
+  const canSave =
+    [firstName, lastName, phone].every(Boolean) && addRequestStatus === "idle";
 
   const onFirstNameChanged = (e) => setFirstName(e.target.value);
   const onLastNameChanged = (e) => setLastName(e.target.value);
@@ -21,7 +24,22 @@ const AddAssistant = () => {
       let email =
         firstName.trim() + "." + lastName.trim() + "@dentistcompanybvt.com";
       email = email.toLowerCase().replaceAll(" ", ".");
-      dispatch(addAssistant(firstName, lastName, phone, email, false));
+      try {
+        setAddRequestStatus("pending");
+        dispatch(
+          addAssistant({
+            firstName: firstName,
+            lastName: lastName,
+            phone: phone,
+            email: email,
+            sick: false,
+          })
+        ).unwrap();
+      } catch (err) {
+        console.error("Failed to save the assistant", err);
+      } finally {
+        setAddRequestStatus("idle");
+      }
     }
   };
 
@@ -29,7 +47,7 @@ const AddAssistant = () => {
     setFirstName("");
     setLastName("");
     setPhone("");
-  }, [!isFormActive]);
+  }, [notActive]);
 
   return (
     <section className={isFormActive ? "forms" : "inActive"}>

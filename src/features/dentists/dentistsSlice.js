@@ -24,7 +24,6 @@ export const saveDentist = createAsyncThunk(
     try {
       const response = await axios.post(DENTISTS_URL, initialDentist);
       return response.data;
-      console.log(response.data);
     } catch (err) {
       return err.message;
     }

@@ -5,14 +5,16 @@
       "lastName": "Babber",
       "phone": "9752269673",
       "email": "oberon.babber@dentistcompanybvt.com",
-      "sick": false
+      "sick": false,
+      "id": 1
     },
     {
       "firstName": "Gavra",
       "lastName": "Seacroft",
       "phone": "7814487556",
       "email": "gavra.seacroft@dentistcompanybvt.com",
-      "sick": true
+      "sick": false,
+      "id": 2
     }
   ],
   "dentists": [

@@ -18,40 +18,53 @@ export const fetchAssistants = createAsyncThunk(
   }
 );
 
+export const addAssistant = createAsyncThunk(
+  "assistants/addAssistant",
+  async (initialAssistant) => {
+    console.log(initialAssistant);
+    try {
+      const response = await axios.post(ASSISTANTS_URL, initialAssistant);
+      return response.data;
+    } catch (err) {
+      return err.message;
+    }
+  }
+);
+
+export const updateAssistantSick = createAsyncThunk(
+  "assistants/updateAssistantSick",
+  async (initialAssistant) => {
+    const { id } = initialAssistant;
+    try {
+      const response = await axios.put(
+        `${ASSISTANTS_URL}/${id}`,
+        initialAssistant
+      );
+      return response.data;
+    } catch (err) {
+      return err.message;
+    }
+  }
+);
+
+export const deleteAssistant = createAsyncThunk(
+  "assistants/deleteAssistant",
+  async (initialAssistant) => {
+    const { id } = initialAssistant;
+    try {
+      const response = await axios.delete(`${ASSISTANTS_URL}/${id}`);
+      if (response?.status === 200) return initialAssistant;
+      return `${response?.status}: ${response?.statusText}`;
+    } catch (err) {
+      return err.message;
+    }
+  }
+);
+
 const assistantsSlice = createSlice({
   name: "assistants",
   initialState,
   reducers: {
-    addAssistant: {
-      reducer(state, action) {
-        state.assistants.push(action.payload);
-        state.formActive = !state.formActive;
-      },
-      prepare(firstName, lastName, phone, email, sick) {
-        return {
-          payload: {
-            firstName,
-            lastName,
-            phone,
-            email,
-            sick,
-          },
-        };
-      },
-    },
-    isSick(state, action) {
-      console.log(state.assistants);
-      state.assistants.map((assistant) =>
-        assistant.email === action.payload
-          ? (assistant.sick = !assistant.sick)
-          : assistant.sick
-      );
-    },
-    deleteAssistant(state, action) {
-      state.assistants = state.assistants.filter(
-        (assistant) => assistant.email !== action.payload
-      );
-    },
     activateAddAssistantForm(state) {
       state.formActive = !state.formActive;
     },
@@ -68,16 +81,39 @@ const assistantsSlice = createSlice({
       .addCase(fetchAssistants.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message;
+      })
+      .addCase(addAssistant.fulfilled, (state, action) => {
+        state.assistants.push(action.payload);
+        state.formActive = !state.formActive;
+      })
+      .addCase(updateAssistantSick.fulfilled, (state, action) => {
+        if (!action.payload?.id) {
+          console.log("Update assistant could not complete");
+          console.log(action.payload);
+          return;
+        }
+        const { id } = action.payload;
+        state.assistants.map((assistant) =>
+          assistant.id === id
+            ? (assistant.sick = !assistant.sick)
+            : assistant.sick
+        );
+      })
+      .addCase(deleteAssistant.fulfilled, (state, action) => {
+        if (!action.payload?.id) {
+          console.log("Delete assistant could not compleet");
+          console.log(action.payload);
+          return;
+        }
+        const { id } = action.payload;
+        state.assistants = state.assistants.filter(
+          (assistant) => assistant.id !== id
+        );
       });
   },
 });
 
-export const {
-  addAssistant,
-  isSick,
-  deleteAssistant,
-  activateAddAssistantForm,
-} = assistantsSlice.actions;
+export const { activateAddAssistantForm } = assistantsSlice.actions;
 
 export const selectAllAssistants = (state) => state.assistants.assistants;
 export const getAssistantsStatus = (state) => state.assistants.status;
