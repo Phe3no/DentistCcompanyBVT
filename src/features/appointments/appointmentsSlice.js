@@ -40,8 +40,9 @@ export const fetchAppointments = createAsyncThunk(
 );
 
 export const addNewAppointment = createAsyncThunk(
-  "appointments/addNewAppointments",
+  "appointments/addNewAppointment",
   async (initialAppointment) => {
+    console.log(initialAppointment);
     try {
       const response = await axios.post(APPOINTMENTS_URL, initialAppointment);
       return response.data;

@@ -26,12 +26,11 @@ const App = () => {
   useEffect(() => {
     if (assistantsStatus === "idle") {
       dispatch(fetchAssistants());
-      console.log("loaded");
     }
     if (dentistsStatus === "idle") {
       dispatch(fetchDentists());
     }
-  }, [assistantsStatus, dentistsStatus, dispatch]);
+  }, []);
 
   let content;
 

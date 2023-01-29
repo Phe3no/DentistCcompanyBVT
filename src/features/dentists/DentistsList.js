@@ -1,19 +1,39 @@
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { MdOutlinePhone } from "react-icons/md";
 import { MdOutlineEmail } from "react-icons/md";
 import { MdOutlineSick } from "react-icons/md";
 import { MdOutlineDelete } from "react-icons/md";
-import { isSick, deleteDentist, getAllDentists } from "./dentistsSlice";
+import { updateDentist, deleteDentist, getAllDentists } from "./dentistsSlice";
 
 const DentistsList = () => {
   const dispatch = useDispatch();
   const dentists = useSelector(getAllDentists);
+  const [requestStatus, setRequestStatus] = useState("idle");
 
-  const onSickCheckboxChanged = (email) => {
-    dispatch(isSick(email));
+  const onSickCheckboxChanged = (dentist) => {
+    const sickSwitch = { ...dentist };
+    sickSwitch.sick = !sickSwitch.sick;
+    try {
+      setRequestStatus("pending");
+      dispatch(updateDentist(sickSwitch)).unwrap();
+    } catch (err) {
+      console.log("Failed to update dentist", err);
+    } finally {
+      setRequestStatus("idle");
+    }
   };
 
-  const onDeleteClicked = (email) => dispatch(deleteDentist(email));
+  const onDeleteClicked = (id) => {
+    try {
+      setRequestStatus("pending");
+      dispatch(deleteDentist({ id })).unwrap();
+    } catch (err) {
+      console.log("Failed to delete the dentists", err);
+    } finally {
+      setRequestStatus("idle");
+    }
+  };
 
   const renderedDentists = dentists.map((dentist, index) => (
     <article key={index}>
@@ -31,10 +51,10 @@ const DentistsList = () => {
           <MdOutlineSick />
           <input
             type="checkbox"
-            onChange={(e) => onSickCheckboxChanged(dentist.email)}
+            onChange={(e) => onSickCheckboxChanged(dentist)}
             checked={dentist.sick}
           />
-          <button type="button" onClick={() => onDeleteClicked(dentist.email)}>
+          <button type="button" onClick={() => onDeleteClicked(dentist.id)}>
             <MdOutlineDelete />
           </button>
         </span>
