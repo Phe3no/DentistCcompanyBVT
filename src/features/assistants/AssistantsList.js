@@ -7,13 +7,13 @@ import { MdOutlineDelete } from "react-icons/md";
 import {
   updateAssistantSick,
   deleteAssistant,
-  selectAllAssistants,
+  getAllAssistants,
 } from "./assistantsSlice";
 
 const AssistantsList = () => {
   const dispatch = useDispatch();
-  const assistants = useSelector(selectAllAssistants);
-  const [requestStaus, setRequestStatus] = useState("idle");
+  const assistants = useSelector(getAllAssistants);
+  const [requestStatus, setRequestStatus] = useState("idle");
 
   const onSickCheckboxChanged = (assistant) => {
     const sickSwitch = { ...assistant };

@@ -1,40 +1,51 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { clients } from "../../app/companyData.js";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+//import { clients } from "../../app/companyData.js";
+import axios from "axios";
+
+const CLIENTS_URL = "http://localhost:5000/clients";
 
 const addFormActive = false;
 const searchFormActive = false;
 let searchByNameValue = "";
 let searchByBirthyearValue = "";
 const initialState = {
-  clients,
+  clients: {},
   addFormActive,
   searchFormActive,
   searchByNameValue,
   searchByBirthyearValue,
+  status: "idle",
+  error: null,
 };
+
+export const fetchClients = createAsyncThunk(
+  "clients/fetchClients",
+  async () => {
+    try {
+      const response = await axios.get(CLIENTS_URL);
+      return response.data;
+    } catch (err) {
+      return err.message;
+    }
+  }
+);
+
+export const addClient = createAsyncThunk(
+  "client/addClient",
+  async (initialClient) => {
+    try {
+      const response = await axios.post(CLIENTS_URL, initialClient);
+      return response.data;
+    } catch (err) {
+      return err.message;
+    }
+  }
+);
 
 const clientSlice = createSlice({
   name: "clients",
   initialState,
   reducers: {
-    addClient: {
-      reducer(state, action) {
-        state.clients.push(action.payload);
-        state.addFormActive = !state.addFormActive;
-      },
-      prepare(firstName, lastName, birthYear, phone, email, sick) {
-        return {
-          payload: {
-            firstName,
-            lastName,
-            birthYear,
-            phone,
-            email,
-            sick,
-          },
-        };
-      },
-    },
     isSick(state, action) {
       state.clients.map((client) =>
         client.email === action.payload
@@ -70,10 +81,28 @@ const clientSlice = createSlice({
       }
     },
   },
+  extraReducers(builder) {
+    builder
+      .addCase(fetchClients.pending, (state, action) => {
+        state.status = "loading";
+      })
+      .addCase(fetchClients.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        const loadedClients = action.payload;
+        state.clients = loadedClients;
+      })
+      .addCase(fetchClients.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error.message;
+      })
+      .addCase(addClient.fulfilled, (state, action) => {
+        state.clients.push(action.payload);
+        state.addFormActive = !state.addFormActive;
+      });
+  },
 });
 
 export const {
-  addClient,
   isSick,
   deleteClient,
   searchClientByName,
@@ -82,7 +111,9 @@ export const {
   activateAddClientForm,
 } = clientSlice.actions;
 
-export const selectAllClients = (state) => state.clients.clients;
+export const getAllClients = (state) => state.clients.clients;
+export const getClientsStatus = (state) => state.clients.status;
+export const getClientsError = (state) => state.clients.error;
 
 export const selectSearchByNameValue = (state) =>
   state.clients.searchByNameValue;

@@ -4,7 +4,11 @@ import { MdOutlinePhone } from "react-icons/md";
 import { MdOutlineEmail } from "react-icons/md";
 import { MdOutlineSick } from "react-icons/md";
 import { MdOutlineDelete } from "react-icons/md";
-import { updateDentist, deleteDentist, getAllDentists } from "./dentistsSlice";
+import {
+  updateDentistSick,
+  deleteDentist,
+  getAllDentists,
+} from "./dentistsSlice";
 
 const DentistsList = () => {
   const dispatch = useDispatch();
@@ -16,7 +20,7 @@ const DentistsList = () => {
     sickSwitch.sick = !sickSwitch.sick;
     try {
       setRequestStatus("pending");
-      dispatch(updateDentist(sickSwitch)).unwrap();
+      dispatch(updateDentistSick(sickSwitch)).unwrap();
     } catch (err) {
       console.log("Failed to update dentist", err);
     } finally {

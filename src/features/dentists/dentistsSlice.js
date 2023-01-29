@@ -18,8 +18,8 @@ export const fetchDentists = createAsyncThunk(
   }
 );
 
-export const saveDentist = createAsyncThunk(
-  "dentists/saveDentist",
+export const addDentist = createAsyncThunk(
+  "dentists/addDentist",
   async (initialDentist) => {
     try {
       const response = await axios.post(DENTISTS_URL, initialDentist);
@@ -30,8 +30,8 @@ export const saveDentist = createAsyncThunk(
   }
 );
 
-export const updateDentist = createAsyncThunk(
-  "dentists/updateDentists",
+export const updateDentistSick = createAsyncThunk(
+  "dentists/updateDentistsSick",
   async (initialDentist) => {
     const { id } = initialDentist;
     try {
@@ -61,29 +61,6 @@ const dentistsSlice = createSlice({
   name: "dentists",
   initialState,
   reducers: {
-    addDentist: {
-      reducer(state, action) {
-        state.dentists.push(action.payload);
-        state.formActive = !state.formActive;
-      },
-      prepare(firstName, lastName, phone, email) {
-        return {
-          payload: {
-            firstName,
-            lastName,
-            phone,
-            email,
-          },
-        };
-      },
-    },
-    isSick(state, action) {
-      state.dentists.map((dentist) =>
-        dentist.email === action.payload
-          ? (dentist.sick = !dentist.sick)
-          : dentist.sick
-      );
-    },
     activateAddDentistForm(state) {
       state.formActive = !state.formActive;
     },
@@ -102,11 +79,11 @@ const dentistsSlice = createSlice({
         state.status = "failed";
         state.error = action.error.message;
       })
-      .addCase(saveDentist.fulfilled, (state, action) => {
+      .addCase(addDentist.fulfilled, (state, action) => {
         state.dentists.push(action.payload);
         state.formActive = !state.formActive;
       })
-      .addCase(updateDentist.fulfilled, (state, action) => {
+      .addCase(updateDentistSick.fulfilled, (state, action) => {
         if (!action.payload?.id) {
           console.log("Update could not compleet");
           console.log(action.payload);
@@ -129,8 +106,7 @@ const dentistsSlice = createSlice({
   },
 });
 
-export const { addDentist, isSick, activateAddDentistForm } =
-  dentistsSlice.actions;
+export const { activateAddDentistForm } = dentistsSlice.actions;
 
 export const getAllDentists = (state) => state.dentists.dentists;
 export const getDentistsStatus = (state) => state.dentists.status;

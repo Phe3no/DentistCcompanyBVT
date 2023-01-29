@@ -12,7 +12,7 @@ import {
   filterDentist,
 } from "./appointmentsSlice";
 import { getAllDentists } from "../dentists/dentistsSlice";
-import { selectAllAssistants } from "../assistants/assistantsSlice";
+import { getAllAssistants } from "../assistants/assistantsSlice";
 
 const AddAppointment = () => {
   const dispatch = useDispatch();
@@ -20,7 +20,7 @@ const AddAppointment = () => {
   const dayValues = useSelector(allDayValues);
   const timeValues = useSelector(allTimeValues);
   const dentists = useSelector(getAllDentists);
-  const assistants = useSelector(selectAllAssistants);
+  const assistants = useSelector(getAllAssistants);
   const isFormActive = useSelector(isAddAppointmentFormActive);
   const client = useSelector(getClient);
 

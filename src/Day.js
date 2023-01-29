@@ -1,14 +1,14 @@
 import { useSelector } from "react-redux";
 import { getAllAppointments } from "./features/appointments/appointmentsSlice";
 import { getAllDentists } from "./features/dentists/dentistsSlice";
-import { selectAllAssistants } from "./features/assistants/assistantsSlice";
+import { getAllAssistants } from "./features/assistants/assistantsSlice";
 import AppointmentInDay from "./AppointmentInDay";
 import "./Day.css";
 
 const Day = () => {
   const appointments = useSelector(getAllAppointments);
   const dentists = useSelector(getAllDentists);
-  const assistants = useSelector(selectAllAssistants);
+  const assistants = useSelector(getAllAssistants);
 
   const getAppointmentData = (person, email) => {
     let result = { name: "not needed..." };

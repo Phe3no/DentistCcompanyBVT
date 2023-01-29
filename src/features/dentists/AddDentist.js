@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { saveDentist, isAddDentistFormActive } from "./dentistsSlice";
+import { addDentist, isAddDentistFormActive } from "./dentistsSlice";
 
 const AddDentist = () => {
   const dispatch = useDispatch();
@@ -10,10 +10,10 @@ const AddDentist = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [phone, setPhone] = useState("");
-  const [addRequestStatus, setAddRequestStatus] = useState("idle");
+  const [requestStatus, setRequestStatus] = useState("idle");
 
   const canSave =
-    [firstName, lastName, phone].every(Boolean) && addRequestStatus === "idle";
+    [firstName, lastName, phone].every(Boolean) && requestStatus === "idle";
 
   const onFirstNameChanged = (e) => setFirstName(e.target.value);
   const onLastNameChanged = (e) => setLastName(e.target.value);
@@ -25,9 +25,9 @@ const AddDentist = () => {
         firstName.trim() + "." + lastName.trim() + "@dentistcompanybvt.com";
       email = email.toLowerCase().replaceAll(" ", ".");
       try {
-        setAddRequestStatus("pending");
+        setRequestStatus("pending");
         dispatch(
-          saveDentist({
+          addDentist({
             firstName: firstName,
             lastName: lastName,
             phone: phone,
@@ -36,9 +36,9 @@ const AddDentist = () => {
           })
         ).unwrap();
       } catch (err) {
-        console.error("Failed to save the dentist", err);
+        console.error("Failed to add the dentist", err);
       } finally {
-        setAddRequestStatus("idle");
+        setRequestStatus("idle");
       }
     }
   };

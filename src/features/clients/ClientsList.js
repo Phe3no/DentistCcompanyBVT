@@ -6,7 +6,7 @@ import { MdOutlineDelete } from "react-icons/md";
 import {
   isSick,
   deleteClient,
-  selectAllClients,
+  getAllClients,
   selectSearchByNameValue,
   selectSearchByBirthdayValue,
 } from "./clientsSlice";
@@ -17,7 +17,7 @@ const ClientsList = () => {
 
   const nameValue = useSelector(selectSearchByNameValue);
   const birthdayValue = useSelector(selectSearchByBirthdayValue);
-  const clients = useSelector(selectAllClients);
+  const clients = useSelector(getAllClients);
   const clientsFilteredByName = clients.filter((client) =>
     client.lastName.toLowerCase().startsWith(nameValue.toLowerCase())
   );

@@ -115,7 +115,7 @@ const assistantsSlice = createSlice({
 
 export const { activateAddAssistantForm } = assistantsSlice.actions;
 
-export const selectAllAssistants = (state) => state.assistants.assistants;
+export const getAllAssistants = (state) => state.assistants.assistants;
 export const getAssistantsStatus = (state) => state.assistants.status;
 export const getAssistantsError = (state) => state.assistants.error;
 

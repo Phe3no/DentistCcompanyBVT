@@ -1,3 +1,4 @@
+import { unwrapResult } from "@reduxjs/toolkit";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addClient, isAddClientFormActive } from "./clientsSlice";
@@ -11,13 +12,11 @@ const AddClient = () => {
   const [birthYear, setBirthYear] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
+  const [requestStatus, setRequestStatus] = useState("idle");
 
   const canSave =
-    Boolean(firstName) &&
-    Boolean(lastName) &&
-    Boolean(birthYear) &&
-    Boolean(phone) &&
-    Boolean(email);
+    [firstName, lastName, birthYear, phone, email].every(Boolean) &&
+    requestStatus === "idle";
 
   const onFirstNameChanged = (e) => setFirstName(e.target.value);
   const onLastNameChanged = (e) => setLastName(e.target.value);
@@ -26,9 +25,25 @@ const AddClient = () => {
   const onEmailChanged = (e) => setEmail(e.target.value);
 
   const onSaveClientClicked = (e) => {
-    e.preventDefault();
-    if (canSave) {
-      dispatch(addClient(firstName, lastName, birthYear, phone, email));
+    try {
+      e.preventDefault();
+      if (canSave) {
+        setRequestStatus("pending");
+        dispatch(
+          addClient({
+            firstName: firstName,
+            lastName: lastName,
+            birthYear: birthYear,
+            phone: phone,
+            email: email,
+            sick: false,
+          })
+        ).unwrap();
+      }
+    } catch (err) {
+      console.error("Failed to add the client", err);
+    } finally {
+      setRequestStatus("idle");
     }
   };
 

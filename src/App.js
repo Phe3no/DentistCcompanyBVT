@@ -11,6 +11,11 @@ import {
   fetchAssistants,
 } from "./features/assistants/assistantsSlice";
 import {
+  fetchClients,
+  getClientsStatus,
+  getClientsError,
+} from "./features/clients/clientsSlice";
+import {
   getDentistsStatus,
   getDentistsError,
   fetchDentists,
@@ -20,12 +25,19 @@ const App = () => {
   const dispatch = useDispatch();
   const assistantsError = useSelector(getAssistantsError);
   const assistantsStatus = useSelector(getAssistantsStatus);
+
+  const clientsError = useSelector(getClientsError);
+  const clientsStatus = useSelector(getClientsStatus);
+
   const dentistsError = useSelector(getDentistsError);
   const dentistsStatus = useSelector(getDentistsStatus);
 
   useEffect(() => {
     if (assistantsStatus === "idle") {
       dispatch(fetchAssistants());
+    }
+    if (clientsStatus === "idle") {
+      dispatch(fetchClients());
     }
     if (dentistsStatus === "idle") {
       dispatch(fetchDentists());
@@ -41,16 +53,24 @@ const App = () => {
         <br />"
       </p>
     );
-  } else if (dentistsStatus === "loading") {
+  } else if (clientsStatus === "loading") {
     content =
       content +
       (
         <p>
-          "Loading dentists... <br />"
+          "Loading clients... <br />"
         </p>
       );
+  } else if (dentistsStatus === "loading") {
+    content = (
+      <p>
+        "Loading dentists...
+        <br />"
+      </p>
+    );
   } else if (
     assistantsStatus === "succeeded" &&
+    clientsStatus === "succeeded" &&
     dentistsStatus === "succeeded"
   ) {
     content = (
@@ -64,6 +84,8 @@ const App = () => {
     );
   } else if (assistantsStatus === "failed") {
     content = <p>{assistantsError}</p>;
+  } else if (clientsStatus === "failed") {
+    content = <p>{clientsError}</p>;
   } else if (dentistsStatus === "failed") {
     content = <p>{dentistsError}</p>;
   }
