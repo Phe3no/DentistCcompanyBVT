@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { MdOutlinePhone } from "react-icons/md";
 import { MdOutlineEmail } from "react-icons/md";
@@ -6,6 +7,7 @@ import { MdOutlineDelete } from "react-icons/md";
 import {
   isSick,
   deleteClient,
+  updateClientSick,
   getAllClients,
   selectSearchByNameValue,
   selectSearchByBirthdayValue,
@@ -18,6 +20,7 @@ const ClientsList = () => {
   const nameValue = useSelector(selectSearchByNameValue);
   const birthdayValue = useSelector(selectSearchByBirthdayValue);
   const clients = useSelector(getAllClients);
+  const [requestStatus, setRequestStatus] = useState("idle");
   const clientsFilteredByName = clients.filter((client) =>
     client.lastName.toLowerCase().startsWith(nameValue.toLowerCase())
   );
@@ -25,8 +28,17 @@ const ClientsList = () => {
     client.birthYear.toString().includes(birthdayValue)
   );
 
-  const onSickCheckboxChanged = (email) => {
-    dispatch(isSick(email));
+  const onSickCheckboxChanged = (client) => {
+    const sickSwitch = { ...client };
+    sickSwitch.sick = !sickSwitch.sick;
+    try {
+      setRequestStatus("pending");
+      dispatch(updateClientSick(sickSwitch)).unwrap();
+    } catch (err) {
+      console.log("Failed to update client sick", err);
+    } finally {
+      setRequestStatus("idle");
+    }
   };
 
   const onDeleteClicked = (email) => dispatch(deleteClient(email));
@@ -54,7 +66,7 @@ const ClientsList = () => {
           <MdOutlineSick />
           <input
             type="checkbox"
-            onChange={() => onSickCheckboxChanged(client.email)}
+            onChange={() => onSickCheckboxChanged(client)}
             checked={client.sick}
           />
           <button type="button" onClick={() => onDeleteClicked(client.email)}>

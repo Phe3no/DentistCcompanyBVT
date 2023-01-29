@@ -42,6 +42,19 @@ export const addClient = createAsyncThunk(
   }
 );
 
+export const updateClientSick = createAsyncThunk(
+  "clients/updateClientssSick",
+  async (initialClient) => {
+    const { id } = initialClient;
+    try {
+      const response = await axios.put(`${CLIENTS_URL}/${id}`, initialClient);
+      return response.data;
+    } catch (err) {
+      return err.message;
+    }
+  }
+);
+
 const clientSlice = createSlice({
   name: "clients",
   initialState,
@@ -98,6 +111,17 @@ const clientSlice = createSlice({
       .addCase(addClient.fulfilled, (state, action) => {
         state.clients.push(action.payload);
         state.addFormActive = !state.addFormActive;
+      })
+      .addCase(updateClientSick.fulfilled, (state, action) => {
+        if (!action.payload?.id) {
+          console.log("Update client sick could not compleet");
+          console.log(action.payload);
+          return;
+        }
+        const { id } = action.payload;
+        state.clients.map((client) =>
+          client.id === id ? (client.sick = !client.sick) : client.sick
+        );
       });
   },
 });

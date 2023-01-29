@@ -296,7 +296,7 @@
       "phone": "3054827838",
       "email": "ygon8@epa.gov",
       "birthYear": 1982,
-      "sick": true,
+      "sick": false,
       "id": 3
     },
     {
@@ -359,7 +359,7 @@
       "phone": "4685147985",
       "email": "nlumpkinf@ftc.gov",
       "birthYear": 1971,
-      "sick": true,
+      "sick": false,
       "id": 10
     },
     {
@@ -395,7 +395,7 @@
       "phone": "8094218760",
       "email": "dbiltonj@domainmarket.com",
       "birthYear": 1989,
-      "sick": true,
+      "sick": false,
       "id": 14
     },
     {
@@ -431,7 +431,7 @@
       "phone": "8944101351",
       "email": "kmacpeicen@tinypic.com",
       "birthYear": 2001,
-      "sick": true,
+      "sick": false,
       "id": 18
     },
     {
@@ -440,7 +440,7 @@
       "phone": "6186860858",
       "email": "mguitono@unesco.org",
       "birthYear": 1968,
-      "sick": true,
+      "sick": false,
       "id": 19
     },
     {
@@ -458,7 +458,7 @@
       "phone": "5453563711",
       "email": "gscryneq@yolasite.com",
       "birthYear": 1957,
-      "sick": true,
+      "sick": false,
       "id": 21
     },
     {
@@ -467,7 +467,7 @@
       " phone": "1222165905",
       " email": "cflasbyr@washington.edu",
       "birthYear": 2012,
-      "sick": true,
+      "sick": false,
       "id": 22
     },
     {
@@ -476,7 +476,7 @@
       "phone": "1425734815",
       "email": "vmckernans@facebook.com",
       "birthYear": 1992,
-      "sick": true,
+      "sick": false,
       "id": 23
     },
     {
@@ -485,7 +485,7 @@
       "phone": "4759241287",
       "email": "dsabbent@google.com.au",
       "birthYear": 1977,
-      "sick": true,
+      "sick": false,
       "id": 24
     },
     {
@@ -503,7 +503,7 @@
       "phone": "8283689603",
       "email": "hdorganv@economist.com",
       "birthYear": 1999,
-      "sick": true,
+      "sick": false,
       "id": 26
     },
     {
@@ -521,7 +521,7 @@
       "phone": "1308245718",
       "email": "lralstonx@apache.org",
       "birthYear": 1993,
-      "sick": true,
+      "sick": false,
       "id": 28
     },
     {
@@ -584,7 +584,7 @@
       "phone": "5524920326",
       "email": "jilsley14@printfriendly.com",
       "birthYear": 1961,
-      "sick": true,
+      "sick": false,
       "id": 35
     },
     {
@@ -593,7 +593,7 @@
       "phone": "4063536226",
       "email": "eiddenden15@constantcontact.com",
       "birthYear": 2005,
-      "sick": true,
+      "sick": false,
       "id": 36
     },
     {
@@ -602,7 +602,7 @@
       "phone": "9647620521",
       "email": "gseeger16@histats.com",
       "birthYear": 1967,
-      "sick": true,
+      "sick": false,
       "id": 37
     },
     {
@@ -638,7 +638,7 @@
       "phone": "2983716230",
       "email": "okolodziejski1a@bizjournals.com",
       "birthYear": 1968,
-      "sick": true,
+      "sick": false,
       "id": 41
     },
     {
@@ -683,7 +683,7 @@
       "phone": "3627435778",
       "email": "fravel1f@google.pl",
       "birthYear": 2014,
-      "sick": true,
+      "sick": false,
       "id": 46
     },
     {
@@ -692,7 +692,7 @@
       "phone": "3694696248",
       "email": "achang1g@constantcontact.com",
       "birthYear": 2008,
-      "sick": true,
+      "sick": false,
       "id": 47
     },
     {
@@ -719,7 +719,7 @@
       "phone": "1879500832",
       "email": "cdurbann1j@independent.co.uk",
       "birthYear": 1993,
-      "sick": true,
+      "sick": false,
       "id": 50
     },
     {
