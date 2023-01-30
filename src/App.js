@@ -6,6 +6,12 @@ import Day from "./Day";
 import Home from "./components/home/Home";
 import "./App.css";
 import {
+  getAppointmentsError,
+  getAppointmentsStatus,
+  fetchAppointments,
+} from "./features/appointments/appointmentsSlice";
+
+import {
   getAssistantsError,
   getAssistantsStatus,
   fetchAssistants,
@@ -23,6 +29,9 @@ import {
 
 const App = () => {
   const dispatch = useDispatch();
+  const appointmentsError = useSelector(getAppointmentsError);
+  const appointmentsStatus = useSelector(getAppointmentsStatus);
+
   const assistantsError = useSelector(getAssistantsError);
   const assistantsStatus = useSelector(getAssistantsStatus);
 
@@ -33,6 +42,9 @@ const App = () => {
   const dentistsStatus = useSelector(getDentistsStatus);
 
   useEffect(() => {
+    if (appointmentsStatus === "idle") {
+      dispatch(fetchAppointments());
+    }
     if (assistantsStatus === "idle") {
       dispatch(fetchAssistants());
     }
@@ -45,8 +57,14 @@ const App = () => {
   }, []);
 
   let content;
-
-  if (assistantsStatus === "loading") {
+  if (appointmentsStatus === "loading") {
+    content = (
+      <p>
+        "Loading appoinments...
+        <br />"
+      </p>
+    );
+  } else if (assistantsStatus === "loading") {
     content = (
       <p>
         "Loading assistants...
@@ -69,6 +87,7 @@ const App = () => {
       </p>
     );
   } else if (
+    appointmentsStatus === "succeeded" &&
     assistantsStatus === "succeeded" &&
     clientsStatus === "succeeded" &&
     dentistsStatus === "succeeded"
@@ -82,6 +101,8 @@ const App = () => {
         </Routes>
       </main>
     );
+  } else if (appointmentsStatus === "failed") {
+    content = <p>{appointmentsError}</p>;
   } else if (assistantsStatus === "failed") {
     content = <p>{assistantsError}</p>;
   } else if (clientsStatus === "failed") {

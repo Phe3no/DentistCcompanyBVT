@@ -1,30 +1,40 @@
 import { useSelector } from "react-redux";
 import { getAllAppointments } from "./features/appointments/appointmentsSlice";
-import { getAllDentists } from "./features/dentists/dentistsSlice";
 import { getAllAssistants } from "./features/assistants/assistantsSlice";
+import { getAllClients } from "./features/clients/clientsSlice";
+import { getAllDentists } from "./features/dentists/dentistsSlice";
 import AppointmentInDay from "./AppointmentInDay";
 import "./Day.css";
 
 const Day = () => {
   const appointments = useSelector(getAllAppointments);
-  const dentists = useSelector(getAllDentists);
   const assistants = useSelector(getAllAssistants);
+  const clients = useSelector(getAllClients);
+  const dentists = useSelector(getAllDentists);
 
-  const getAppointmentData = (person, email) => {
+  const getAppointmentData = (person, value) => {
     let result = { name: "not needed..." };
-    if (person === "dentist" && email) {
-      const dentist = dentists.find((dentist) => dentist.email === email);
+    if (person === "dentist" && value) {
+      const dentistRes = dentists.find((dentist) => dentist.email === value);
       result = Object.assign(
         {},
-        { name: `${dentist.firstName} ${dentist.lastName}` }
+        { name: `${dentistRes.firstName} ${dentistRes.lastName}` },
+        { sick: dentistRes.sick }
       );
-    } else if (person === "assistant" && email) {
+    } else if (person === "assistant" && value) {
       const assistant = assistants.find(
-        (assistant) => assistant.email === email
+        (assistant) => assistant.email === value
       );
       result = Object.assign(
         {},
         { name: `${assistant.firstName} ${assistant.lastName}` }
+      );
+    } else if (person === "client" && value) {
+      const client = clients.find((client) => client.id === value);
+      result = Object.assign(
+        {},
+        { name: `${client.firstName} ${client.lastName}` },
+        { sick: client.sick }
       );
     }
     return result;
@@ -42,7 +52,9 @@ const Day = () => {
       <AppointmentInDay
         time={app.time}
         patient={clientData.name}
+        patientSick={clientData.sick}
         dentist={dentistData.name}
+        dentistSick={dentistData.sick}
         assistant={assistantData.name}
         key={index}
       />

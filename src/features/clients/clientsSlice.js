@@ -55,22 +55,24 @@ export const updateClientSick = createAsyncThunk(
   }
 );
 
+export const deleteClient = createAsyncThunk(
+  "clients/deleteClient",
+  async (initialClient) => {
+    const { id } = initialClient;
+    try {
+      const response = await axios.delete(`${CLIENTS_URL}/${id}`);
+      if (response?.status === 200) return initialClient;
+      return `${response?.status}: ${response?.statusText}`;
+    } catch (err) {
+      return err.message;
+    }
+  }
+);
+
 const clientSlice = createSlice({
   name: "clients",
   initialState,
   reducers: {
-    isSick(state, action) {
-      state.clients.map((client) =>
-        client.email === action.payload
-          ? (client.sick = !client.sick)
-          : client.sick
-      );
-    },
-    deleteClient(state, action) {
-      state.clients = state.clients.filter(
-        (client) => client.email !== action.payload
-      );
-    },
     searchClientByName: {
       reducer(state, action) {
         state.searchByNameValue = action.payload;
@@ -122,13 +124,21 @@ const clientSlice = createSlice({
         state.clients.map((client) =>
           client.id === id ? (client.sick = !client.sick) : client.sick
         );
+      })
+      .addCase(deleteClient.fulfilled, (state, action) => {
+        if (!action.payload?.id) {
+          console.log("Delete client could not compleet");
+          console.log(action.payload);
+          return;
+        }
+        const { id } = action.payload;
+        state.clients = state.clients.filter((client) => client.id !== id);
       });
   },
 });
 
 export const {
   isSick,
-  deleteClient,
   searchClientByName,
   searchClientByBirthyear,
   activateSearchClientForm,

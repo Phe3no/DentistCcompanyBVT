@@ -1,5 +1,4 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { appointments, dentists } from "../../app/companyData.js";
+import { createSlice, createAsyncThunk, current } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const APPOINTMENTS_URL = "http://localhost:5000/appointments";
@@ -13,6 +12,7 @@ for (let i = 7; i <= 17; i++) {
 }
 
 let availableTimeValues = [];
+const appointments = [];
 
 const formActive = false;
 const initialState = {
@@ -20,7 +20,7 @@ const initialState = {
   dayValues,
   availableTimeValues,
   client: {},
-  dentists: [],
+  filteredAssistantEmail: "",
   filteredDentistEmail: "",
   formActive,
   status: "idle",
@@ -42,7 +42,6 @@ export const fetchAppointments = createAsyncThunk(
 export const addNewAppointment = createAsyncThunk(
   "appointments/addNewAppointment",
   async (initialAppointment) => {
-    console.log(initialAppointment);
     try {
       const response = await axios.post(APPOINTMENTS_URL, initialAppointment);
       return response.data;
@@ -61,8 +60,7 @@ export const appointmentsSlice = createSlice({
     },
     addAppointmentWithoutAssistant: (state, action) => {
       const thisDentistAppointments = state.appointments.filter(
-        (appointment) =>
-          appointment.dentist.email === state.filteredDentistEmail
+        (appointment) => appointment.dentist === state.filteredDentistEmail
       );
       const notAvailableTime = [];
       thisDentistAppointments.forEach((appointment) => {
@@ -77,6 +75,30 @@ export const appointmentsSlice = createSlice({
       });
     },
     addAppointmentWithAssistant: (state, action) => {
+      console.log(current(state.appointments));
+      const currentAppointments = current(state.appointments);
+      const thisAssistantAppointments = currentAppointments.filter(
+        (appointment) => appointment.assistant === state.filteredAssistantEmail
+      );
+      console.log(thisAssistantAppointments);
+      const notAvailableTime = [];
+      thisAssistantAppointments.forEach((appointment) => {
+        if (appointment.day === action.payload) {
+          notAvailableTime.push(appointment.time);
+        }
+      });
+      console.log(notAvailableTime);
+      notAvailableTime.map((item) => {
+        state.availableTimeValues = state.availableTimeValues.filter(
+          (time) => time != item
+        );
+      });
+
+      /*state.availableTimeValues.forEach((time) => {
+        if (!notAvailableTime.find((item) => item === time))
+          state.availableTimeValues.push(time);
+      });*/
+
       console.log("Add an appointment with an assistant");
     },
     deleteAppointment: (state) => {
@@ -84,6 +106,9 @@ export const appointmentsSlice = createSlice({
     },
     deleteAppointmentsClientSick: (state) => {
       console.log("A client becomes sick, delete his-her appointments");
+    },
+    filterAssistant: (state, action) => {
+      state.filteredAssistantEmail = action.payload;
     },
     filterDentist: (state, action) => {
       state.filteredDentistEmail = action.payload;
@@ -96,7 +121,7 @@ export const appointmentsSlice = createSlice({
     },
     activateAddAppointmentForm(state, action) {
       state.formActive = !state.formActive;
-      state.client.email = action.payload.email;
+      state.client.id = action.payload.id;
     },
     deactivateAddAppointmentForm(state) {
       state.formActive = !state.formActive;
@@ -117,7 +142,8 @@ export const appointmentsSlice = createSlice({
         state.error = action.error.message;
       })
       .addCase(addNewAppointment.fulfilled, (state, action) => {
-        action.payload.client = { ...state.client };
+        console.log(action.payload);
+        //action.payload.client = { ...state.client };
         state.appointments.push(action.payload);
       });
   },
@@ -129,6 +155,7 @@ export const {
   addAppointmentWithAssistant,
   deleteAppointment,
   deleteAppointmentsClientSick,
+  filterAssistant,
   filterDentist,
   moveAppointment,
   generateRandomAppointments,

@@ -9,6 +9,7 @@ import {
   deactivateAddAppointmentForm,
   isAddAppointmentFormActive,
   addAppointmentWithAssistant,
+  filterAssistant,
   filterDentist,
 } from "./appointmentsSlice";
 import { getAllDentists } from "../dentists/dentistsSlice";
@@ -40,7 +41,7 @@ const AddAppointment = () => {
   const data = {
     day: day,
     time: time,
-    client: { ...client },
+    client: client.id,
     dentist: dentist,
     assistant: assistant,
   };
@@ -48,6 +49,8 @@ const AddAppointment = () => {
   const onDayChanged = (e) => {
     setDay(e.target.value);
     dispatch(addAppointmentWithoutAssistant(e.target.value));
+    if (Boolean(assistant))
+      dispatch(addAppointmentWithAssistant(e.target.value));
     data.day = day;
     //setTime("");
   };
@@ -63,13 +66,16 @@ const AddAppointment = () => {
   };
 
   const onAssistantChanged = (e) => {
-    const filteredAssistant = assistants.filter(
+    setAssistant(e.target.value);
+    dispatch(filterAssistant(e.target.value));
+
+    /*const filteredAssistant = assistants.filter(
       (assistant) => assistant.email === e.target.value
     );
     if (filteredAssistant.length === 1) {
       setAssistant(e.target.value);
       data.assistant = filteredAssistant[0];
-    }
+    }*/
   };
 
   const renderAllDayValues = dayValues.map((day, index) => (

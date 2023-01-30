@@ -1,24 +1,23 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import AppointmentInMonth from "./AppointmentInMonth";
+import { getAllClients } from "./features/clients/clientsSlice";
 
 const DayInMonth = ({ appointments }) => {
+  const clients = useSelector(getAllClients);
+
   const getAppointmentData = (patient) => {
-    console.log(patient);
+    const client = clients.filter((client) => client.id == patient);
     let result = {};
-    if (patient) {
-      result = Object.assign(
-        {},
-        { name: `${patient.firstName} ${patient.lastName}` }
-      );
+    if (client) {
+      client.map((item) => {
+        result.name = `${item.firstName}, ${item.lastName}`;
+      });
     }
-    console.log(result);
     return result;
   };
 
-  console.log(appointments);
-
   const appointmentsJSX = appointments.map((app, index) => {
-    console.log(app);
     const patientData = getAppointmentData(app.client);
     return (
       <AppointmentInMonth

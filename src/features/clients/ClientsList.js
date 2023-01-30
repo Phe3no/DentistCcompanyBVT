@@ -41,7 +41,16 @@ const ClientsList = () => {
     }
   };
 
-  const onDeleteClicked = (email) => dispatch(deleteClient(email));
+  const onDeleteClicked = (id) => {
+    try {
+      setRequestStatus("pending");
+      dispatch(deleteClient({ id })).unwrap();
+    } catch (err) {
+      console.log("Failed to delete the client", err);
+    } finally {
+      setRequestStatus("idle");
+    }
+  };
 
   const onMakeAppointmentClicked = (client) => {
     dispatch(activateAddAppointmentForm(client));
@@ -69,7 +78,7 @@ const ClientsList = () => {
             onChange={() => onSickCheckboxChanged(client)}
             checked={client.sick}
           />
-          <button type="button" onClick={() => onDeleteClicked(client.email)}>
+          <button type="button" onClick={() => onDeleteClicked(client.id)}>
             <MdOutlineDelete />
           </button>
           <button
